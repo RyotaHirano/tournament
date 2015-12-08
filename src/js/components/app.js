@@ -51,6 +51,7 @@ export default class App extends Component {
     this.handleUpdateSelectedPlayerIndex = this.handleUpdateSelectedPlayerIndex.bind(this);
     this.addRowSelection = this.addRowSelection.bind(this);
     this.onChangeScore = this.onChangeScore.bind(this);
+    this.onClickDownLoadButton = this.onClickDownLoadButton.bind(this);
   }
 
   render() {
@@ -95,6 +96,7 @@ export default class App extends Component {
               pairs={ this.state.pairs }
               isShowTounament={ this.state.isShowTounament }
               onChangeScore={ this.onChangeScore }
+              onClickDownLoadButton={ this.onClickDownLoadButton }
             />
           </Tab>
         </Tabs>
@@ -201,5 +203,17 @@ export default class App extends Component {
     this.setState({
       users: Object.assign(this.state.users, oppNewUser)
     });
+  }
+
+  onClickDownLoadButton(e) {
+    const downloadObj = {
+      users: this.state.users,
+      pairs: this.state.pairs
+    }
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(downloadObj));
+    const downLoadaBtn = document.createElement('a');
+    downLoadaBtn.setAttribute('href', dataStr);
+    downLoadaBtn.setAttribute('download', 'tournament_data.json');
+    downLoadaBtn.click();
   }
 }
