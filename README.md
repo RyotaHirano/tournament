@@ -1,7 +1,7 @@
 # tournament
 
-## Demo
-http://ryotahirano.github.io/tournament/demo/
+### Demo
+http://ryotahirano.github.io/tournament/
 
 ### Setting
 npm i
