@@ -3,8 +3,8 @@
 ### Demo
 http://ryotahirano.github.io/tournament/
 
-### Setting
+#### Setting
 npm i
 
-### Run
+#### Run
 npm start
