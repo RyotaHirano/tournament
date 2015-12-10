@@ -6,10 +6,9 @@ import TextField from 'material-ui/lib/text-field'
 
 import { colors } from '../conf/conf';
 
-export default class MatchResultList extends Component {
+export default class MatchHistoryList extends Component {
   constructor(props) {
     super(props);
-    this._onChangeScore = this._onChangeScore.bind(this);
   }
 
   render() {
@@ -28,7 +27,7 @@ export default class MatchResultList extends Component {
             </span>
           )}
         </div>
-        <List className="match-result-list">
+        <List className="match-history-list">
           {this.props.pair.map((user, userIndex) =>
             <ListItem
               key={Date.now() * Math.random() + userIndex}
@@ -45,7 +44,7 @@ export default class MatchResultList extends Component {
                   ></Badge>
                 : null
               }
-              className="user-name match-result-list-item"
+              className="user-name match-history-list-item"
               style={
                 (user.win === true) ?
                   {backgroundColor: '#ffea00'}
@@ -67,22 +66,12 @@ export default class MatchResultList extends Component {
               style={{ width: 40 }}
               floatingLabelText="Score"
               defaultValue={user.score}
-              onChange={this._onChangeScore}
+              disabled={true}
             />
           )}
         </div>
         <ListDivider />
       </div>
     );
-  }
-
-  _onChangeScore(e) {
-    const userId = e.target.id;
-    const score = e.target.value;
-    const oppPairId = (e.target.dataset.pairId === '0') ? 1 : 0;
-    const parentDom = e.target.parentElement.parentElement;
-    const oppUserId = parentDom.childNodes[oppPairId].childNodes[1].id;
-    const oppUserScore = parentDom.childNodes[oppPairId].childNodes[1].value;
-    this.props.onChangeScore(userId, score, oppUserId, oppUserScore);
   }
 }

@@ -1,0 +1,35 @@
+{
+  "no": "第1回 決勝",
+  "data": [
+    [{
+      "id": "1",
+      "name": "takamatsu",
+      "rank": 3,
+      "team": "スウェーデン",
+      "score": "0",
+      "win": true
+    }, {
+      "id": "5",
+      "name": "hirano",
+      "rank": 5,
+      "team": "ベルギー",
+      "score": "0",
+      "win": false
+    }],
+    [{
+      "id": "1",
+      "name": "takamatsu",
+      "rank": 3,
+      "team": "スウェーデン",
+      "score": "1",
+      "win": true
+    }, {
+      "id": "2",
+      "name": "sawada",
+      "rank": 2,
+      "team": "ウルグアイ",
+      "score": "0",
+      "win": false
+    }]
+  ]
+}

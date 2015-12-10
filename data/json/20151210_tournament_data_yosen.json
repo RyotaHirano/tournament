@@ -1,0 +1,50 @@
+{
+  "no": "第1回 予選",
+  "data": [
+    [{
+      "id": "0",
+      "name": "sato",
+      "rank": 3,
+      "team": "オーストリア",
+      "score": "0",
+      "win": false
+    }, {
+      "id": "1",
+      "name": "takamatsu",
+      "rank": 3,
+      "team": "スウェーデン",
+      "score": "3",
+      "win": true
+    }],
+    [{
+      "id": "2",
+      "name": "sawada",
+      "rank": 2,
+      "team": "ウルグアイ",
+      "score": "1",
+      "win": true
+    }, {
+      "id": "4",
+      "name": "noda",
+      "rank": 1,
+      "team": "アルゼンチン",
+      "score": "0",
+      "win": false
+    }],
+    [{
+      "id": "5",
+      "name": "hirano",
+      "rank": 5,
+      "team": "ベルギー",
+      "score": "1",
+      "win": true
+    }, {
+      "id": "3",
+      "name": "saitou",
+      "rank": 3,
+      "team": "日本",
+      "score": "0",
+      "win": false
+    }]
+  ]
+}

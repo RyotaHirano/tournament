@@ -123,7 +123,7 @@ html, body {
   }
 }
 
-.match-result {
+.match-result, .match-history {
   margin-bottom: 20px;
   overflow: hidden;
 
@@ -134,11 +134,11 @@ html, body {
     padding-left: 20px;
   }
 
-  .match-result-list {
+  .match-result-list, .match-history-list {
     margin-left: 20px;
     overflow: hidden;
 
-    .match-result-list-item {
+    .match-result-list-item, .match-history-list-item  {
       width: 50%;
       float: left;
     }
@@ -162,6 +162,27 @@ html, body {
 
   }
 }
+
+.json-download {
+  text-align: center;
+}
+
+.match-history {
+  min-height: 600px;
+
+  .match-history-select-box {
+    text-align: center;
+
+    .select-match-history-label {
+      display: inline-block;
+      margin-right: 14px;
+      font-weight: bold;
+      vertical-align: text-bottom;
+      line-height: 48px;
+    }
+  }
+}
+
 
 .mui-table-header-row {
   border-left: 40px solid #ddd;
