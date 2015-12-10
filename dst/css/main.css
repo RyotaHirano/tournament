@@ -90,30 +90,44 @@ html, body {
       font-size: 1.2em;
       margin: auto 10px; }
 
-.match-result {
+.match-result, .match-history {
   margin-bottom: 20px;
   overflow: hidden; }
-  .match-result .match-number {
+  .match-result .match-number, .match-history .match-number {
     color: rgba(0, 0, 0, 0.54);
     font-style: italic;
     margin-bottom: 10px;
     padding-left: 20px; }
-  .match-result .match-result-list {
+  .match-result .match-result-list, .match-result .match-history-list, .match-history .match-result-list, .match-history .match-history-list {
     margin-left: 20px;
     overflow: hidden; }
-    .match-result .match-result-list .match-result-list-item {
+    .match-result .match-result-list .match-result-list-item, .match-result .match-result-list .match-history-list-item, .match-result .match-history-list .match-result-list-item, .match-result .match-history-list .match-history-list-item, .match-history .match-result-list .match-result-list-item, .match-history .match-result-list .match-history-list-item, .match-history .match-history-list .match-result-list-item, .match-history .match-history-list .match-history-list-item {
       width: 50%;
       float: left; }
-  .match-result .score {
+  .match-result .score, .match-history .score {
     position: relative; }
-    .match-result .score .score-input {
+    .match-result .score .score-input, .match-history .score .score-input {
       position: absolute !important;
       top: -77px;
       font-weight: bold; }
-      .match-result .score .score-input:first-child {
+      .match-result .score .score-input:first-child, .match-history .score .score-input:first-child {
         left: 38%; }
-      .match-result .score .score-input:last-child {
+      .match-result .score .score-input:last-child, .match-history .score .score-input:last-child {
         left: 88%; }
+
+.json-download {
+  text-align: center; }
+
+.match-history {
+  min-height: 600px; }
+  .match-history .match-history-select-box {
+    text-align: center; }
+    .match-history .match-history-select-box .select-match-history-label {
+      display: inline-block;
+      margin-right: 14px;
+      font-weight: bold;
+      vertical-align: text-bottom;
+      line-height: 48px; }
 
 .mui-table-header-row {
   border-left: 40px solid #ddd; }
