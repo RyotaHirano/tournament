@@ -1,6 +1,6 @@
 import 'babel-polyfill';
 
-import { users, teams, NO } from '../conf/conf';
+import { users, teams, colors, NO } from '../conf/conf';
 import shuffle from '../lib/shuffle';
 import getPair from '../lib/get-pair';
 import getTeam from '../lib/get-team';
@@ -16,11 +16,14 @@ let scrollTargetTop = 0;
 import React, { Component } from 'react';
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from'material-ui/lib/tabs/tab';
+import { List, ListDivider, ListItem } from 'material-ui/lib/lists';
+import { SelectableContainerEnhance as selectableContainerEnhance } from 'material-ui/lib/hoc/selectable-enhance';
+const SelectableList = selectableContainerEnhance(List);
+import Avatar from 'material-ui/lib/avatar';
 import RaisedButton from 'material-ui/lib/raised-button';
 import SelectField from 'material-ui/lib/select-field';
 
 import LevelList from './level-list';
-import PlayerLists from './player-lists';
 import CreateTournamentButton from './create-tournament-button';
 import TournamentLists from './tournament-lists';
 import CountryTable from './country-table';
@@ -80,10 +83,23 @@ export default class App extends Component {
             key={ Date.now() * Math.random() }
           >
             <h2 className="sub-title">Player</h2>
-            <PlayerLists
-              users={this.state.users}
-              selectedPlayerIndex={this.state.selectedPlayerIndex} onClickPlayer={this.handleUpdateSelectedPlayerIndex}
-            />
+            <div>
+              <SelectableList
+                valueLink={{ value: this.state.selectedPlayerIndex, requestChange: this.handleUpdateSelectedPlayerIndex }}
+                subheader="Select Player">
+                {this.state.users.map((user, i) =>
+                  <ListItem
+                    key={Date.now() * Math.random()}
+                    primaryText={user.name}
+                    secondaryText={user.team}
+                    value={i + 1}
+                    leftAvatar={<Avatar backgroundColor={colors[user.rank]}>{user.name.slice(0, 1).toUpperCase()}</Avatar>}
+                    className="user-name"
+                  />)
+                }
+                <ListDivider />
+              </SelectableList>
+            </div>
             <CreateTournamentButton
               onClickButton={ this.createTournament }
               isShowTounament={this.state.isShowTounament}
