@@ -7,26 +7,19 @@ import TableHeaderColumn from 'material-ui/lib/table/table-header-column';
 import TableRow from 'material-ui/lib/table/table-row';
 import TableRowColumn from 'material-ui/lib/table/table-row-column';
 
+import { teams } from '../conf/conf';
 import selectLevel from '../lib/select-level';
 
-import { teams } from '../conf/conf';
-
 export default class CountryTable extends Component {
-
-  // static get propTypes() {
-  //   return {
-  //     users: PropTypes.array.isRequired
-  //   };
-  // }
-
   constructor(props) {
     super(props);
+
     this.onClickTableRow = this.onClickTableRow.bind(this);
     this._onRowSelection = this.onRowClickSelection.bind(this);
   }
 
   render() {
-    return (
+    return(
       <Table
         fixedHeader={this.props.tableData.fixedHeader}
         fixedFooter={this.props.tableData.fixedFooter}
