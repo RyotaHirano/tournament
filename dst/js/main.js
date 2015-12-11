@@ -40467,6 +40467,8 @@ module.exports = require('./lib/React');
 },{"./lib/React":408}],520:[function(require,module,exports){
 'use strict';
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 Object.defineProperty(exports, "__esModule", {
@@ -40557,10 +40559,6 @@ var _tournamentLists = require('./tournament-lists');
 
 var _tournamentLists2 = _interopRequireDefault(_tournamentLists);
 
-var _countryTable = require('./country-table');
-
-var _countryTable2 = _interopRequireDefault(_countryTable);
-
 var _matchResultList = require('./match-result-list');
 
 var _matchResultList2 = _interopRequireDefault(_matchResultList);
@@ -40568,6 +40566,10 @@ var _matchResultList2 = _interopRequireDefault(_matchResultList);
 var _matchHistoryList = require('./match-history-list');
 
 var _matchHistoryList2 = _interopRequireDefault(_matchHistoryList);
+
+var _countryTable = require('../container/country-table');
+
+var _countryTable2 = _interopRequireDefault(_countryTable);
 
 var _readJson = require('../../../data/readJson');
 
@@ -40584,6 +40586,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var scrollTargetTop = 0;
 
 var SelectableList = (0, _selectableEnhance.SelectableContainerEnhance)(_lists.List);
+// import CountryTable from './country-table';
 
 // Read Match History Data
 
@@ -40603,7 +40606,7 @@ var App = (function (_Component) {
     _this.state = {
       users: _conf.users,
       pairs: [],
-      tableDate: {
+      tableData: {
         fixedHeader: true,
         fixedFooter: true,
         stripedRows: false,
@@ -40695,12 +40698,10 @@ var App = (function (_Component) {
               label: 'Select Your Teams',
               key: Date.now() * Math.random()
             },
-            _react2.default.createElement(_countryTable2.default, {
-              tableData: this.state.tableDate,
-              selectedCountry: this.state.selectedCountry,
+            _react2.default.createElement(_countryTable2.default, _extends({}, this.state, {
               onClickTableRow: this.teamSelected,
               onClickAddRowSelection: this.addRowSelection
-            })
+            }))
           ),
           _react2.default.createElement(
             _tab2.default,
@@ -40938,7 +40939,501 @@ var App = (function (_Component) {
 
 exports.default = App;
 
-},{"../../../data/readJson":3,"../conf/conf":528,"../lib/chk-select-enable":529,"../lib/create-select-match-data":531,"../lib/create-select-match-data-title":530,"../lib/get-pair":532,"../lib/get-selected-country":533,"../lib/get-team":534,"../lib/shuffle":536,"../lib/zero-padding":537,"./country-table":521,"./create-tournament-button":522,"./level-list":523,"./match-history-list":524,"./match-result-list":525,"./tournament-lists":527,"babel-polyfill":4,"material-ui/lib/avatar":233,"material-ui/lib/hoc/selectable-enhance":243,"material-ui/lib/lists":246,"material-ui/lib/raised-button":261,"material-ui/lib/select-field":265,"material-ui/lib/tabs/tab":285,"material-ui/lib/tabs/tabs":287,"offset":306,"popmotion-scroll-to":307,"react":519}],521:[function(require,module,exports){
+},{"../../../data/readJson":3,"../conf/conf":527,"../container/country-table":528,"../lib/chk-select-enable":529,"../lib/create-select-match-data":531,"../lib/create-select-match-data-title":530,"../lib/get-pair":532,"../lib/get-selected-country":533,"../lib/get-team":534,"../lib/shuffle":536,"../lib/zero-padding":537,"./create-tournament-button":521,"./level-list":522,"./match-history-list":523,"./match-result-list":524,"./tournament-lists":526,"babel-polyfill":4,"material-ui/lib/avatar":233,"material-ui/lib/hoc/selectable-enhance":243,"material-ui/lib/lists":246,"material-ui/lib/raised-button":261,"material-ui/lib/select-field":265,"material-ui/lib/tabs/tab":285,"material-ui/lib/tabs/tabs":287,"offset":306,"popmotion-scroll-to":307,"react":519}],521:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = createTournamentButton;
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _raisedButton = require('material-ui/lib/raised-button');
+
+var _raisedButton2 = _interopRequireDefault(_raisedButton);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function createTournamentButton(props) {
+  return _react2.default.createElement(
+    'div',
+    { className: 'shuffle-button-wrapper' },
+    _react2.default.createElement(_raisedButton2.default, { onClick: props.onClickButton, label: '!!!shuffle!!!', primary: true, disabled: props.isShowTounament, className: 'shuffle-button', style: { height: '80px' } })
+  );
+}
+
+},{"material-ui/lib/raised-button":261,"react":519}],522:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = LevelList;
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function LevelList() {
+  return _react2.default.createElement(
+    "div",
+    null,
+    _react2.default.createElement(
+      "ul",
+      { className: "level-list" },
+      _react2.default.createElement(
+        "li",
+        { className: "l-1" },
+        "Level1"
+      ),
+      _react2.default.createElement(
+        "li",
+        { className: "l-2" },
+        "Level2"
+      ),
+      _react2.default.createElement(
+        "li",
+        { className: "l-3" },
+        "Level3"
+      ),
+      _react2.default.createElement(
+        "li",
+        { className: "l-4" },
+        "Level4"
+      ),
+      _react2.default.createElement(
+        "li",
+        { className: "l-5" },
+        "Level5"
+      )
+    )
+  );
+}
+
+},{"react":519}],523:[function(require,module,exports){
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _lists = require('material-ui/lib/lists');
+
+var _avatar = require('material-ui/lib/avatar');
+
+var _avatar2 = _interopRequireDefault(_avatar);
+
+var _badge = require('material-ui/lib/badge');
+
+var _badge2 = _interopRequireDefault(_badge);
+
+var _textField = require('material-ui/lib/text-field');
+
+var _textField2 = _interopRequireDefault(_textField);
+
+var _conf = require('../conf/conf');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MatchHistoryList = (function (_Component) {
+  _inherits(MatchHistoryList, _Component);
+
+  function MatchHistoryList(props) {
+    _classCallCheck(this, MatchHistoryList);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(MatchHistoryList).call(this, props));
+  }
+
+  _createClass(MatchHistoryList, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'match-list-wrap' },
+        _react2.default.createElement(
+          'h3',
+          { className: 'match-number' },
+          'match ' + (parseInt(this.props.index, 10) + 1)
+        ),
+        _react2.default.createElement(
+          'div',
+          {
+            className: 'header-scores'
+          },
+          this.props.pair.map(function (user, userIndex) {
+            return _react2.default.createElement(
+              'span',
+              {
+                key: Date.now() * Math.random() + userIndex,
+                className: 'header-score'
+              },
+              user.score
+            );
+          })
+        ),
+        _react2.default.createElement(
+          _lists.List,
+          { className: 'match-history-list' },
+          this.props.pair.map(function (user, userIndex) {
+            return _react2.default.createElement(_lists.ListItem, {
+              key: Date.now() * Math.random() + userIndex,
+              primaryText: user.name,
+              secondaryText: user.team,
+              leftAvatar: _react2.default.createElement(
+                _avatar2.default,
+                { backgroundColor: _conf.colors[user.rank] },
+                user.name.slice(0, 1).toUpperCase()
+              ),
+              rightIcon: user.win === true ? _react2.default.createElement(_badge2.default, {
+                badgeContent: 'WIN',
+                badgeStyle: { width: 40, height: 30, top: 10 },
+                style: { position: 'absolute', zIndex: 1 },
+                primary: true
+              }) : null,
+              className: 'user-name match-history-list-item',
+              style: user.win === true ? { backgroundColor: '#ffea00' } : { backgroundColor: 'inherit' }
+            });
+          })
+        ),
+        _react2.default.createElement(
+          'div',
+          {
+            className: 'score'
+          },
+          this.props.pair.map(function (user, userIndex) {
+            return _react2.default.createElement(_textField2.default, {
+              key: Date.now() * Math.random() + userIndex,
+              type: 'number',
+              className: 'score-input',
+              id: user.id,
+              'data-pair-id': userIndex,
+              style: { width: 40 },
+              floatingLabelText: 'Score',
+              defaultValue: user.score,
+              disabled: true
+            });
+          })
+        ),
+        _react2.default.createElement(_lists.ListDivider, null)
+      );
+    }
+  }]);
+
+  return MatchHistoryList;
+})(_react.Component);
+
+exports.default = MatchHistoryList;
+
+},{"../conf/conf":527,"material-ui/lib/avatar":233,"material-ui/lib/badge":234,"material-ui/lib/lists":246,"material-ui/lib/text-field":288,"react":519}],524:[function(require,module,exports){
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _lists = require('material-ui/lib/lists');
+
+var _avatar = require('material-ui/lib/avatar');
+
+var _avatar2 = _interopRequireDefault(_avatar);
+
+var _badge = require('material-ui/lib/badge');
+
+var _badge2 = _interopRequireDefault(_badge);
+
+var _textField = require('material-ui/lib/text-field');
+
+var _textField2 = _interopRequireDefault(_textField);
+
+var _conf = require('../conf/conf');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MatchResultList = (function (_Component) {
+  _inherits(MatchResultList, _Component);
+
+  function MatchResultList(props) {
+    _classCallCheck(this, MatchResultList);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MatchResultList).call(this, props));
+
+    _this._onChangeScore = _this._onChangeScore.bind(_this);
+    return _this;
+  }
+
+  _createClass(MatchResultList, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'match-list-wrap' },
+        _react2.default.createElement(
+          'h3',
+          { className: 'match-number' },
+          'match ' + (parseInt(this.props.index, 10) + 1)
+        ),
+        _react2.default.createElement(
+          'div',
+          {
+            className: 'header-scores'
+          },
+          this.props.pair.map(function (user, userIndex) {
+            return _react2.default.createElement(
+              'span',
+              {
+                key: Date.now() * Math.random() + userIndex,
+                className: 'header-score'
+              },
+              user.score
+            );
+          })
+        ),
+        _react2.default.createElement(
+          _lists.List,
+          { className: 'match-result-list' },
+          this.props.pair.map(function (user, userIndex) {
+            return _react2.default.createElement(_lists.ListItem, {
+              key: Date.now() * Math.random() + userIndex,
+              primaryText: user.name,
+              secondaryText: user.team,
+              leftAvatar: _react2.default.createElement(
+                _avatar2.default,
+                { backgroundColor: _conf.colors[user.rank] },
+                user.name.slice(0, 1).toUpperCase()
+              ),
+              rightIcon: user.win === true ? _react2.default.createElement(_badge2.default, {
+                badgeContent: 'WIN',
+                badgeStyle: { width: 40, height: 30, top: 10 },
+                style: { position: 'absolute', zIndex: 1 },
+                primary: true
+              }) : null,
+              className: 'user-name match-result-list-item',
+              style: user.win === true ? { backgroundColor: '#ffea00' } : { backgroundColor: 'inherit' }
+            });
+          })
+        ),
+        _react2.default.createElement(
+          'div',
+          {
+            className: 'score'
+          },
+          this.props.pair.map(function (user, userIndex) {
+            return _react2.default.createElement(_textField2.default, {
+              key: Date.now() * Math.random() + userIndex,
+              type: 'number',
+              className: 'score-input',
+              id: user.id,
+              'data-pair-id': userIndex,
+              style: { width: 40 },
+              floatingLabelText: 'Score',
+              defaultValue: user.score,
+              onChange: _this2._onChangeScore
+            });
+          })
+        ),
+        _react2.default.createElement(_lists.ListDivider, null)
+      );
+    }
+  }, {
+    key: '_onChangeScore',
+    value: function _onChangeScore(e) {
+      var userId = e.target.id;
+      var score = e.target.value;
+      var oppPairId = e.target.dataset.pairId === '0' ? 1 : 0;
+      var parentDom = e.target.parentElement.parentElement;
+      var oppUserId = parentDom.childNodes[oppPairId].childNodes[1].id;
+      var oppUserScore = parentDom.childNodes[oppPairId].childNodes[1].value;
+      this.props.onChangeScore(userId, score, oppUserId, oppUserScore);
+    }
+  }]);
+
+  return MatchResultList;
+})(_react.Component);
+
+exports.default = MatchResultList;
+
+},{"../conf/conf":527,"material-ui/lib/avatar":233,"material-ui/lib/badge":234,"material-ui/lib/lists":246,"material-ui/lib/text-field":288,"react":519}],525:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = TournamentList;
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _lists = require('material-ui/lib/lists');
+
+var _avatar = require('material-ui/lib/avatar');
+
+var _avatar2 = _interopRequireDefault(_avatar);
+
+var _conf = require('../conf/conf');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function TournamentList(props) {
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'h3',
+      { className: 'match-number' },
+      'match ' + (parseInt(props.index, 10) + 1)
+    ),
+    _react2.default.createElement(
+      _lists.List,
+      { className: 'tournament-list' },
+      props.pair.map(function (user, userIndex) {
+        return _react2.default.createElement(_lists.ListItem, {
+          key: Date.now() * Math.random() + userIndex,
+          primaryText: user.name,
+          secondaryText: user.team,
+          leftAvatar: _react2.default.createElement(
+            _avatar2.default,
+            { backgroundColor: _conf.colors[user.rank] },
+            user.name.slice(0, 1).toUpperCase()
+          ),
+          className: 'user-name tournament-list-item'
+        });
+      })
+    ),
+    _react2.default.createElement(_lists.ListDivider, null)
+  );
+}
+
+},{"../conf/conf":527,"material-ui/lib/avatar":233,"material-ui/lib/lists":246,"react":519}],526:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = TournamentLists;
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _tournamentList = require('./tournament-list');
+
+var _tournamentList2 = _interopRequireDefault(_tournamentList);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function TournamentLists(props) {
+  return _react2.default.createElement(
+    'div',
+    { className: (0, _classnames2.default)('match', { show: props.isShowTounament }), id: 'match' },
+    props.pairs.map(function (pair, index) {
+      return _react2.default.createElement(_tournamentList2.default, { key: Date.now() * Math.random() + index, pair: pair, index: index });
+    })
+  );
+}
+
+},{"./tournament-list":525,"classnames":7,"react":519}],527:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var NO = exports.NO = '第2回';
+
+var users = exports.users = [{
+  id: '0',
+  name: 'sato',
+  rank: 3,
+  team: '',
+  score: '0',
+  win: ''
+}, {
+  id: '1',
+  name: 'takamatsu',
+  rank: 3,
+  team: '',
+  score: '0',
+  win: ''
+}, {
+  id: '2',
+  name: 'sawada',
+  rank: 2,
+  team: '',
+  score: '0',
+  win: ''
+}, {
+  id: '3',
+  name: 'saitou',
+  rank: 3,
+  team: '',
+  score: '0',
+  win: ''
+}, {
+  id: '4',
+  name: 'noda',
+  rank: 1,
+  team: '',
+  score: '0',
+  win: ''
+}, {
+  id: '5',
+  name: 'hirano',
+  rank: 5,
+  team: '',
+  score: '0',
+  win: ''
+}];
+
+var teams = exports.teams = ['ブラジル', 'スペイン', 'オランダ', 'イタリア', 'ドイツ', 'アルゼンチン', 'イングランド', 'クロアチア', 'フランス', 'ポルトガル', 'アメリカ合衆国', 'ロシア', 'スイス', 'カメルーン', 'チェコ', 'ギリシャ', 'チリ', 'メキシコ', 'コートジボワール', 'セルビア', 'パラグアイ', 'ウクライナ', 'ブルガリア', 'オーストラリア', 'ウルグアイ', 'イスラエル', 'デンマーク', 'エジプト', 'アルジェリア', 'コロンビア', '北アイルランド', 'ナイジェリア', 'スロバキア', 'アイルランド', 'ホンジュラス', 'ルーマニア', 'ノルウェー', 'ガーナ', 'トルコ', '日本', 'スウェーデン', 'ボスニア・ヘルツェゴビナ', 'コスタリカ', 'エクアドル', 'ガボン', 'スコットランド', 'ラトビア', '韓国', 'スロベニア', 'ハンガリー', 'ベネズエラ', 'マリ', 'カナダ', 'チュニジア', 'ブルキナファソ', 'ポーランド', 'フィンランド', 'オーストリア', 'リトアニア', 'ボリビア', 'バーレーン', 'イラン', 'モロッコ', 'サウジアラビア', 'キプロス', 'マケドニア共和国', 'ベナン', 'ベルギー', 'ジャマイカ', 'パナマ'];
+
+var colors = exports.colors = {
+  1: '#1e88e5',
+  2: '#43a047',
+  3: '#c0ca33',
+  4: '#ffb300',
+  5: '#f4511e'
+};
+
+var MAXRANK = exports.MAXRANK = 5;
+
+var SEP = exports.SEP = 2;
+
+},{}],528:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -40979,11 +41474,11 @@ var _tableRowColumn = require('material-ui/lib/table/table-row-column');
 
 var _tableRowColumn2 = _interopRequireDefault(_tableRowColumn);
 
+var _conf = require('../conf/conf');
+
 var _selectLevel = require('../lib/select-level');
 
 var _selectLevel2 = _interopRequireDefault(_selectLevel);
-
-var _conf = require('../conf/conf');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41143,501 +41638,7 @@ var CountryTable = (function (_Component) {
 
 exports.default = CountryTable;
 
-},{"../conf/conf":528,"../lib/select-level":535,"material-ui/lib/table/table":284,"material-ui/lib/table/table-body":278,"material-ui/lib/table/table-footer":279,"material-ui/lib/table/table-header":281,"material-ui/lib/table/table-header-column":280,"material-ui/lib/table/table-row":283,"material-ui/lib/table/table-row-column":282,"react":519}],522:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = createTournamentButton;
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _raisedButton = require('material-ui/lib/raised-button');
-
-var _raisedButton2 = _interopRequireDefault(_raisedButton);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function createTournamentButton(props) {
-  return _react2.default.createElement(
-    'div',
-    { className: 'shuffle-button-wrapper' },
-    _react2.default.createElement(_raisedButton2.default, { onClick: props.onClickButton, label: '!!!shuffle!!!', primary: true, disabled: props.isShowTounament, className: 'shuffle-button', style: { height: '80px' } })
-  );
-}
-
-},{"material-ui/lib/raised-button":261,"react":519}],523:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = LevelList;
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function LevelList() {
-  return _react2.default.createElement(
-    "div",
-    null,
-    _react2.default.createElement(
-      "ul",
-      { className: "level-list" },
-      _react2.default.createElement(
-        "li",
-        { className: "l-1" },
-        "Level1"
-      ),
-      _react2.default.createElement(
-        "li",
-        { className: "l-2" },
-        "Level2"
-      ),
-      _react2.default.createElement(
-        "li",
-        { className: "l-3" },
-        "Level3"
-      ),
-      _react2.default.createElement(
-        "li",
-        { className: "l-4" },
-        "Level4"
-      ),
-      _react2.default.createElement(
-        "li",
-        { className: "l-5" },
-        "Level5"
-      )
-    )
-  );
-}
-
-},{"react":519}],524:[function(require,module,exports){
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _lists = require('material-ui/lib/lists');
-
-var _avatar = require('material-ui/lib/avatar');
-
-var _avatar2 = _interopRequireDefault(_avatar);
-
-var _badge = require('material-ui/lib/badge');
-
-var _badge2 = _interopRequireDefault(_badge);
-
-var _textField = require('material-ui/lib/text-field');
-
-var _textField2 = _interopRequireDefault(_textField);
-
-var _conf = require('../conf/conf');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var MatchHistoryList = (function (_Component) {
-  _inherits(MatchHistoryList, _Component);
-
-  function MatchHistoryList(props) {
-    _classCallCheck(this, MatchHistoryList);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(MatchHistoryList).call(this, props));
-  }
-
-  _createClass(MatchHistoryList, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'match-list-wrap' },
-        _react2.default.createElement(
-          'h3',
-          { className: 'match-number' },
-          'match ' + (parseInt(this.props.index, 10) + 1)
-        ),
-        _react2.default.createElement(
-          'div',
-          {
-            className: 'header-scores'
-          },
-          this.props.pair.map(function (user, userIndex) {
-            return _react2.default.createElement(
-              'span',
-              {
-                key: Date.now() * Math.random() + userIndex,
-                className: 'header-score'
-              },
-              user.score
-            );
-          })
-        ),
-        _react2.default.createElement(
-          _lists.List,
-          { className: 'match-history-list' },
-          this.props.pair.map(function (user, userIndex) {
-            return _react2.default.createElement(_lists.ListItem, {
-              key: Date.now() * Math.random() + userIndex,
-              primaryText: user.name,
-              secondaryText: user.team,
-              leftAvatar: _react2.default.createElement(
-                _avatar2.default,
-                { backgroundColor: _conf.colors[user.rank] },
-                user.name.slice(0, 1).toUpperCase()
-              ),
-              rightIcon: user.win === true ? _react2.default.createElement(_badge2.default, {
-                badgeContent: 'WIN',
-                badgeStyle: { width: 40, height: 30, top: 10 },
-                style: { position: 'absolute', zIndex: 1 },
-                primary: true
-              }) : null,
-              className: 'user-name match-history-list-item',
-              style: user.win === true ? { backgroundColor: '#ffea00' } : { backgroundColor: 'inherit' }
-            });
-          })
-        ),
-        _react2.default.createElement(
-          'div',
-          {
-            className: 'score'
-          },
-          this.props.pair.map(function (user, userIndex) {
-            return _react2.default.createElement(_textField2.default, {
-              key: Date.now() * Math.random() + userIndex,
-              type: 'number',
-              className: 'score-input',
-              id: user.id,
-              'data-pair-id': userIndex,
-              style: { width: 40 },
-              floatingLabelText: 'Score',
-              defaultValue: user.score,
-              disabled: true
-            });
-          })
-        ),
-        _react2.default.createElement(_lists.ListDivider, null)
-      );
-    }
-  }]);
-
-  return MatchHistoryList;
-})(_react.Component);
-
-exports.default = MatchHistoryList;
-
-},{"../conf/conf":528,"material-ui/lib/avatar":233,"material-ui/lib/badge":234,"material-ui/lib/lists":246,"material-ui/lib/text-field":288,"react":519}],525:[function(require,module,exports){
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _lists = require('material-ui/lib/lists');
-
-var _avatar = require('material-ui/lib/avatar');
-
-var _avatar2 = _interopRequireDefault(_avatar);
-
-var _badge = require('material-ui/lib/badge');
-
-var _badge2 = _interopRequireDefault(_badge);
-
-var _textField = require('material-ui/lib/text-field');
-
-var _textField2 = _interopRequireDefault(_textField);
-
-var _conf = require('../conf/conf');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var MatchResultList = (function (_Component) {
-  _inherits(MatchResultList, _Component);
-
-  function MatchResultList(props) {
-    _classCallCheck(this, MatchResultList);
-
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MatchResultList).call(this, props));
-
-    _this._onChangeScore = _this._onChangeScore.bind(_this);
-    return _this;
-  }
-
-  _createClass(MatchResultList, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'match-list-wrap' },
-        _react2.default.createElement(
-          'h3',
-          { className: 'match-number' },
-          'match ' + (parseInt(this.props.index, 10) + 1)
-        ),
-        _react2.default.createElement(
-          'div',
-          {
-            className: 'header-scores'
-          },
-          this.props.pair.map(function (user, userIndex) {
-            return _react2.default.createElement(
-              'span',
-              {
-                key: Date.now() * Math.random() + userIndex,
-                className: 'header-score'
-              },
-              user.score
-            );
-          })
-        ),
-        _react2.default.createElement(
-          _lists.List,
-          { className: 'match-result-list' },
-          this.props.pair.map(function (user, userIndex) {
-            return _react2.default.createElement(_lists.ListItem, {
-              key: Date.now() * Math.random() + userIndex,
-              primaryText: user.name,
-              secondaryText: user.team,
-              leftAvatar: _react2.default.createElement(
-                _avatar2.default,
-                { backgroundColor: _conf.colors[user.rank] },
-                user.name.slice(0, 1).toUpperCase()
-              ),
-              rightIcon: user.win === true ? _react2.default.createElement(_badge2.default, {
-                badgeContent: 'WIN',
-                badgeStyle: { width: 40, height: 30, top: 10 },
-                style: { position: 'absolute', zIndex: 1 },
-                primary: true
-              }) : null,
-              className: 'user-name match-result-list-item',
-              style: user.win === true ? { backgroundColor: '#ffea00' } : { backgroundColor: 'inherit' }
-            });
-          })
-        ),
-        _react2.default.createElement(
-          'div',
-          {
-            className: 'score'
-          },
-          this.props.pair.map(function (user, userIndex) {
-            return _react2.default.createElement(_textField2.default, {
-              key: Date.now() * Math.random() + userIndex,
-              type: 'number',
-              className: 'score-input',
-              id: user.id,
-              'data-pair-id': userIndex,
-              style: { width: 40 },
-              floatingLabelText: 'Score',
-              defaultValue: user.score,
-              onChange: _this2._onChangeScore
-            });
-          })
-        ),
-        _react2.default.createElement(_lists.ListDivider, null)
-      );
-    }
-  }, {
-    key: '_onChangeScore',
-    value: function _onChangeScore(e) {
-      var userId = e.target.id;
-      var score = e.target.value;
-      var oppPairId = e.target.dataset.pairId === '0' ? 1 : 0;
-      var parentDom = e.target.parentElement.parentElement;
-      var oppUserId = parentDom.childNodes[oppPairId].childNodes[1].id;
-      var oppUserScore = parentDom.childNodes[oppPairId].childNodes[1].value;
-      this.props.onChangeScore(userId, score, oppUserId, oppUserScore);
-    }
-  }]);
-
-  return MatchResultList;
-})(_react.Component);
-
-exports.default = MatchResultList;
-
-},{"../conf/conf":528,"material-ui/lib/avatar":233,"material-ui/lib/badge":234,"material-ui/lib/lists":246,"material-ui/lib/text-field":288,"react":519}],526:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = TournamentList;
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _lists = require('material-ui/lib/lists');
-
-var _avatar = require('material-ui/lib/avatar');
-
-var _avatar2 = _interopRequireDefault(_avatar);
-
-var _conf = require('../conf/conf');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function TournamentList(props) {
-  return _react2.default.createElement(
-    'div',
-    null,
-    _react2.default.createElement(
-      'h3',
-      { className: 'match-number' },
-      'match ' + (parseInt(props.index, 10) + 1)
-    ),
-    _react2.default.createElement(
-      _lists.List,
-      { className: 'tournament-list' },
-      props.pair.map(function (user, userIndex) {
-        return _react2.default.createElement(_lists.ListItem, {
-          key: Date.now() * Math.random() + userIndex,
-          primaryText: user.name,
-          secondaryText: user.team,
-          leftAvatar: _react2.default.createElement(
-            _avatar2.default,
-            { backgroundColor: _conf.colors[user.rank] },
-            user.name.slice(0, 1).toUpperCase()
-          ),
-          className: 'user-name tournament-list-item'
-        });
-      })
-    ),
-    _react2.default.createElement(_lists.ListDivider, null)
-  );
-}
-
-},{"../conf/conf":528,"material-ui/lib/avatar":233,"material-ui/lib/lists":246,"react":519}],527:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = TournamentLists;
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _tournamentList = require('./tournament-list');
-
-var _tournamentList2 = _interopRequireDefault(_tournamentList);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function TournamentLists(props) {
-  return _react2.default.createElement(
-    'div',
-    { className: (0, _classnames2.default)('match', { show: props.isShowTounament }), id: 'match' },
-    props.pairs.map(function (pair, index) {
-      return _react2.default.createElement(_tournamentList2.default, { key: Date.now() * Math.random() + index, pair: pair, index: index });
-    })
-  );
-}
-
-},{"./tournament-list":526,"classnames":7,"react":519}],528:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var NO = exports.NO = '第2回';
-
-var users = exports.users = [{
-  id: '0',
-  name: 'sato',
-  rank: 3,
-  team: '',
-  score: '0',
-  win: ''
-}, {
-  id: '1',
-  name: 'takamatsu',
-  rank: 3,
-  team: '',
-  score: '0',
-  win: ''
-}, {
-  id: '2',
-  name: 'sawada',
-  rank: 2,
-  team: '',
-  score: '0',
-  win: ''
-}, {
-  id: '3',
-  name: 'saitou',
-  rank: 3,
-  team: '',
-  score: '0',
-  win: ''
-}, {
-  id: '4',
-  name: 'noda',
-  rank: 1,
-  team: '',
-  score: '0',
-  win: ''
-}, {
-  id: '5',
-  name: 'hirano',
-  rank: 5,
-  team: '',
-  score: '0',
-  win: ''
-}];
-
-var teams = exports.teams = ['ブラジル', 'スペイン', 'オランダ', 'イタリア', 'ドイツ', 'アルゼンチン', 'イングランド', 'クロアチア', 'フランス', 'ポルトガル', 'アメリカ合衆国', 'ロシア', 'スイス', 'カメルーン', 'チェコ', 'ギリシャ', 'チリ', 'メキシコ', 'コートジボワール', 'セルビア', 'パラグアイ', 'ウクライナ', 'ブルガリア', 'オーストラリア', 'ウルグアイ', 'イスラエル', 'デンマーク', 'エジプト', 'アルジェリア', 'コロンビア', '北アイルランド', 'ナイジェリア', 'スロバキア', 'アイルランド', 'ホンジュラス', 'ルーマニア', 'ノルウェー', 'ガーナ', 'トルコ', '日本', 'スウェーデン', 'ボスニア・ヘルツェゴビナ', 'コスタリカ', 'エクアドル', 'ガボン', 'スコットランド', 'ラトビア', '韓国', 'スロベニア', 'ハンガリー', 'ベネズエラ', 'マリ', 'カナダ', 'チュニジア', 'ブルキナファソ', 'ポーランド', 'フィンランド', 'オーストリア', 'リトアニア', 'ボリビア', 'バーレーン', 'イラン', 'モロッコ', 'サウジアラビア', 'キプロス', 'マケドニア共和国', 'ベナン', 'ベルギー', 'ジャマイカ', 'パナマ'];
-
-var colors = exports.colors = {
-  1: '#1e88e5',
-  2: '#43a047',
-  3: '#c0ca33',
-  4: '#ffb300',
-  5: '#f4511e'
-};
-
-var MAXRANK = exports.MAXRANK = 5;
-
-var SEP = exports.SEP = 2;
-
-},{}],529:[function(require,module,exports){
+},{"../conf/conf":527,"../lib/select-level":535,"material-ui/lib/table/table":284,"material-ui/lib/table/table-body":278,"material-ui/lib/table/table-footer":279,"material-ui/lib/table/table-header":281,"material-ui/lib/table/table-header-column":280,"material-ui/lib/table/table-row":283,"material-ui/lib/table/table-row-column":282,"react":519}],529:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41669,7 +41670,7 @@ function chkSelectEnable(props, userObj, targetRank) {
   return enable;
 }
 
-},{"../conf/conf":528,"../lib/get-team":534}],530:[function(require,module,exports){
+},{"../conf/conf":527,"../lib/get-team":534}],530:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41731,7 +41732,7 @@ function getPair(array) {
   return pair;
 }
 
-},{"../conf/conf":528}],533:[function(require,module,exports){
+},{"../conf/conf":527}],533:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

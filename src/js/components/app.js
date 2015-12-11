@@ -26,9 +26,11 @@ import SelectField from 'material-ui/lib/select-field';
 import LevelList from './level-list';
 import CreateTournamentButton from './create-tournament-button';
 import TournamentLists from './tournament-lists';
-import CountryTable from './country-table';
+// import CountryTable from './country-table';
 import MatchResultList from './match-result-list';
 import MatchHistoryList from './match-history-list';
+
+import CountryTable from '../container/country-table';
 
 // Read Match History Data
 import { jsonData } from '../../../data/readJson';
@@ -45,7 +47,7 @@ export default class App extends Component {
     this.state = {
       users,
       pairs: [],
-      tableDate: {
+      tableData: {
         fixedHeader: true,
         fixedFooter: true,
         stripedRows: false,
@@ -114,8 +116,7 @@ export default class App extends Component {
             key={ Date.now() * Math.random() }
           >
             <CountryTable
-              tableData={ this.state.tableDate }
-              selectedCountry={ this.state.selectedCountry }
+              { ...this.state }
               onClickTableRow={ this.teamSelected }
               onClickAddRowSelection={ this.addRowSelection }
             />
