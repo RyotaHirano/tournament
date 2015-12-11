@@ -1,35 +1,24 @@
 import 'babel-polyfill';
 
-import { users, teams, colors, NO } from '../conf/conf';
-import shuffle from '../lib/shuffle';
-import getPair from '../lib/get-pair';
+import { users, teams, NO } from '../conf/conf';
 import getTeam from '../lib/get-team';
 import getSelectedCountry from '../lib/get-selected-country';
 import chkSelectEnable from '../lib/chk-select-enable';
 import createSelectMatchDataTitle from '../lib/create-select-match-data-title';
 import createSelectMatchData from '../lib/create-select-match-data';
 import zeroPadding from '../lib/zero-padding';
-import scrollTo from 'popmotion-scroll-to';
-import offset from 'offset';
-let scrollTargetTop = 0;
 
 import React, { Component } from 'react';
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from'material-ui/lib/tabs/tab';
-import { List, ListDivider, ListItem } from 'material-ui/lib/lists';
-import { SelectableContainerEnhance as selectableContainerEnhance } from 'material-ui/lib/hoc/selectable-enhance';
-const SelectableList = selectableContainerEnhance(List);
-import Avatar from 'material-ui/lib/avatar';
 import RaisedButton from 'material-ui/lib/raised-button';
 import SelectField from 'material-ui/lib/select-field';
-
 import LevelList from './level-list';
-import CreateTournamentButton from './create-tournament-button';
-import TournamentLists from './tournament-lists';
-// import CountryTable from './country-table';
+
 import MatchResultList from './match-result-list';
 import MatchHistoryList from './match-history-list';
 
+import PlayerList from '../container/playerList';
 import CountryTable from '../container/country-table';
 
 // Read Match History Data
@@ -66,9 +55,10 @@ export default class App extends Component {
     };
     this.showFlg = false;
 
-    this.createTournament = this.createTournament.bind(this);
-    this.teamSelected = this.teamSelected.bind(this);
     this.handleUpdateSelectedPlayerIndex = this.handleUpdateSelectedPlayerIndex.bind(this);
+    this.shuffleUsers = this.shuffleUsers.bind(this);
+    this.showTounament = this.showTounament.bind(this);
+    this.teamSelected = this.teamSelected.bind(this);
     this.addRowSelection = this.addRowSelection.bind(this);
     this.onChangeScore = this.onChangeScore.bind(this);
     this.onClickDownLoadButton = this.onClickDownLoadButton.bind(this);
@@ -84,31 +74,11 @@ export default class App extends Component {
             label="Tournament List"
             key={ Date.now() * Math.random() }
           >
-            <h2 className="sub-title">Player</h2>
-            <div>
-              <SelectableList
-                valueLink={{ value: this.state.selectedPlayerIndex, requestChange: this.handleUpdateSelectedPlayerIndex }}
-                subheader="Select Player">
-                {this.state.users.map((user, i) =>
-                  <ListItem
-                    key={Date.now() * Math.random()}
-                    primaryText={user.name}
-                    secondaryText={user.team}
-                    value={i + 1}
-                    leftAvatar={<Avatar backgroundColor={colors[user.rank]}>{user.name.slice(0, 1).toUpperCase()}</Avatar>}
-                    className="user-name"
-                  />)
-                }
-                <ListDivider />
-              </SelectableList>
-            </div>
-            <CreateTournamentButton
-              onClickButton={ this.createTournament }
-              isShowTounament={this.state.isShowTounament}
-            />
-            <TournamentLists
-              pairs={ this.state.pairs }
-              isShowTounament={this.state.isShowTounament}
+            <PlayerList
+              { ...this.state }
+              handleUpdateSelectedPlayerIndex={this.handleUpdateSelectedPlayerIndex}
+              shuffleUsers={this.shuffleUsers}
+              showTounament={this.showTounament}
             />
           </Tab>
           <Tab
@@ -182,34 +152,16 @@ export default class App extends Component {
     );
   }
 
-  shuffleUsers() {
+  shuffleUsers(setShuffleUsers) {
     this.setState({
-      pairs: getPair(shuffle(this.state.users))
+      pairs: setShuffleUsers
     });
   }
 
-  scrollToEl() {
-    if (scrollTargetTop === 0) {
-      scrollTargetTop = document.body.scrollTop + offset(document.querySelector('#match')).top;
-    }
-    scrollTo({ x: 0, y: scrollTargetTop });
-  }
-
-  showTounament() {
-    if (!this.state.isShowTounament) {
-      this.setState({
-        isShowTounament: !this.state.isShowTounament
-      });
-    }
-  }
-
-  createTournament() {
-    (async () => {
-      this.shuffleUsers();
-      this.scrollToEl();
-      await new Promise(resolve => setTimeout(() => resolve(), 1500));
-      this.showTounament();
-    })();
+  showTounament(setIsShowTounament) {
+    this.setState({
+      isShowTounament: setIsShowTounament
+    });
   }
 
   _addTeam(props, targetRank, newUser) {

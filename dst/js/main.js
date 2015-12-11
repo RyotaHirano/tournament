@@ -40479,14 +40479,6 @@ require('babel-polyfill');
 
 var _conf = require('../conf/conf');
 
-var _shuffle = require('../lib/shuffle');
-
-var _shuffle2 = _interopRequireDefault(_shuffle);
-
-var _getPair = require('../lib/get-pair');
-
-var _getPair2 = _interopRequireDefault(_getPair);
-
 var _getTeam = require('../lib/get-team');
 
 var _getTeam2 = _interopRequireDefault(_getTeam);
@@ -40511,14 +40503,6 @@ var _zeroPadding = require('../lib/zero-padding');
 
 var _zeroPadding2 = _interopRequireDefault(_zeroPadding);
 
-var _popmotionScrollTo = require('popmotion-scroll-to');
-
-var _popmotionScrollTo2 = _interopRequireDefault(_popmotionScrollTo);
-
-var _offset = require('offset');
-
-var _offset2 = _interopRequireDefault(_offset);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -40530,14 +40514,6 @@ var _tabs2 = _interopRequireDefault(_tabs);
 var _tab = require('material-ui/lib/tabs/tab');
 
 var _tab2 = _interopRequireDefault(_tab);
-
-var _lists = require('material-ui/lib/lists');
-
-var _selectableEnhance = require('material-ui/lib/hoc/selectable-enhance');
-
-var _avatar = require('material-ui/lib/avatar');
-
-var _avatar2 = _interopRequireDefault(_avatar);
 
 var _raisedButton = require('material-ui/lib/raised-button');
 
@@ -40551,14 +40527,6 @@ var _levelList = require('./level-list');
 
 var _levelList2 = _interopRequireDefault(_levelList);
 
-var _createTournamentButton = require('./create-tournament-button');
-
-var _createTournamentButton2 = _interopRequireDefault(_createTournamentButton);
-
-var _tournamentLists = require('./tournament-lists');
-
-var _tournamentLists2 = _interopRequireDefault(_tournamentLists);
-
 var _matchResultList = require('./match-result-list');
 
 var _matchResultList2 = _interopRequireDefault(_matchResultList);
@@ -40566,6 +40534,10 @@ var _matchResultList2 = _interopRequireDefault(_matchResultList);
 var _matchHistoryList = require('./match-history-list');
 
 var _matchHistoryList2 = _interopRequireDefault(_matchHistoryList);
+
+var _playerList = require('../container/playerList');
+
+var _playerList2 = _interopRequireDefault(_playerList);
 
 var _countryTable = require('../container/country-table');
 
@@ -40575,18 +40547,11 @@ var _readJson = require('../../../data/readJson');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } step("next"); }); }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var scrollTargetTop = 0;
-
-var SelectableList = (0, _selectableEnhance.SelectableContainerEnhance)(_lists.List);
-// import CountryTable from './country-table';
 
 // Read Match History Data
 
@@ -40625,9 +40590,10 @@ var App = (function (_Component) {
     };
     _this.showFlg = false;
 
-    _this.createTournament = _this.createTournament.bind(_this);
-    _this.teamSelected = _this.teamSelected.bind(_this);
     _this.handleUpdateSelectedPlayerIndex = _this.handleUpdateSelectedPlayerIndex.bind(_this);
+    _this.shuffleUsers = _this.shuffleUsers.bind(_this);
+    _this.showTounament = _this.showTounament.bind(_this);
+    _this.teamSelected = _this.teamSelected.bind(_this);
     _this.addRowSelection = _this.addRowSelection.bind(_this);
     _this.onChangeScore = _this.onChangeScore.bind(_this);
     _this.onClickDownLoadButton = _this.onClickDownLoadButton.bind(_this);
@@ -40653,44 +40619,11 @@ var App = (function (_Component) {
               label: 'Tournament List',
               key: Date.now() * Math.random()
             },
-            _react2.default.createElement(
-              'h2',
-              { className: 'sub-title' },
-              'Player'
-            ),
-            _react2.default.createElement(
-              'div',
-              null,
-              _react2.default.createElement(
-                SelectableList,
-                {
-                  valueLink: { value: this.state.selectedPlayerIndex, requestChange: this.handleUpdateSelectedPlayerIndex },
-                  subheader: 'Select Player' },
-                this.state.users.map(function (user, i) {
-                  return _react2.default.createElement(_lists.ListItem, {
-                    key: Date.now() * Math.random(),
-                    primaryText: user.name,
-                    secondaryText: user.team,
-                    value: i + 1,
-                    leftAvatar: _react2.default.createElement(
-                      _avatar2.default,
-                      { backgroundColor: _conf.colors[user.rank] },
-                      user.name.slice(0, 1).toUpperCase()
-                    ),
-                    className: 'user-name'
-                  });
-                }),
-                _react2.default.createElement(_lists.ListDivider, null)
-              )
-            ),
-            _react2.default.createElement(_createTournamentButton2.default, {
-              onClickButton: this.createTournament,
-              isShowTounament: this.state.isShowTounament
-            }),
-            _react2.default.createElement(_tournamentLists2.default, {
-              pairs: this.state.pairs,
-              isShowTounament: this.state.isShowTounament
-            })
+            _react2.default.createElement(_playerList2.default, _extends({}, this.state, {
+              handleUpdateSelectedPlayerIndex: this.handleUpdateSelectedPlayerIndex,
+              shuffleUsers: this.shuffleUsers,
+              showTounament: this.showTounament
+            }))
           ),
           _react2.default.createElement(
             _tab2.default,
@@ -40779,57 +40712,17 @@ var App = (function (_Component) {
     }
   }, {
     key: 'shuffleUsers',
-    value: function shuffleUsers() {
+    value: function shuffleUsers(setShuffleUsers) {
       this.setState({
-        pairs: (0, _getPair2.default)((0, _shuffle2.default)(this.state.users))
+        pairs: setShuffleUsers
       });
     }
   }, {
-    key: 'scrollToEl',
-    value: function scrollToEl() {
-      if (scrollTargetTop === 0) {
-        scrollTargetTop = document.body.scrollTop + (0, _offset2.default)(document.querySelector('#match')).top;
-      }
-      (0, _popmotionScrollTo2.default)({ x: 0, y: scrollTargetTop });
-    }
-  }, {
     key: 'showTounament',
-    value: function showTounament() {
-      if (!this.state.isShowTounament) {
-        this.setState({
-          isShowTounament: !this.state.isShowTounament
-        });
-      }
-    }
-  }, {
-    key: 'createTournament',
-    value: function createTournament() {
-      var _this3 = this;
-
-      _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _this3.shuffleUsers();
-                _this3.scrollToEl();
-                _context.next = 4;
-                return new Promise(function (resolve) {
-                  return setTimeout(function () {
-                    return resolve();
-                  }, 1500);
-                });
-
-              case 4:
-                _this3.showTounament();
-
-              case 5:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, _this3);
-      }))();
+    value: function showTounament(setIsShowTounament) {
+      this.setState({
+        isShowTounament: setIsShowTounament
+      });
     }
   }, {
     key: '_addTeam',
@@ -40939,33 +40832,7 @@ var App = (function (_Component) {
 
 exports.default = App;
 
-},{"../../../data/readJson":3,"../conf/conf":527,"../container/country-table":528,"../lib/chk-select-enable":529,"../lib/create-select-match-data":531,"../lib/create-select-match-data-title":530,"../lib/get-pair":532,"../lib/get-selected-country":533,"../lib/get-team":534,"../lib/shuffle":536,"../lib/zero-padding":537,"./create-tournament-button":521,"./level-list":522,"./match-history-list":523,"./match-result-list":524,"./tournament-lists":526,"babel-polyfill":4,"material-ui/lib/avatar":233,"material-ui/lib/hoc/selectable-enhance":243,"material-ui/lib/lists":246,"material-ui/lib/raised-button":261,"material-ui/lib/select-field":265,"material-ui/lib/tabs/tab":285,"material-ui/lib/tabs/tabs":287,"offset":306,"popmotion-scroll-to":307,"react":519}],521:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = createTournamentButton;
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _raisedButton = require('material-ui/lib/raised-button');
-
-var _raisedButton2 = _interopRequireDefault(_raisedButton);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function createTournamentButton(props) {
-  return _react2.default.createElement(
-    'div',
-    { className: 'shuffle-button-wrapper' },
-    _react2.default.createElement(_raisedButton2.default, { onClick: props.onClickButton, label: '!!!shuffle!!!', primary: true, disabled: props.isShowTounament, className: 'shuffle-button', style: { height: '80px' } })
-  );
-}
-
-},{"material-ui/lib/raised-button":261,"react":519}],522:[function(require,module,exports){
+},{"../../../data/readJson":3,"../conf/conf":526,"../container/country-table":527,"../container/playerList":528,"../lib/chk-select-enable":529,"../lib/create-select-match-data":531,"../lib/create-select-match-data-title":530,"../lib/get-selected-country":533,"../lib/get-team":534,"../lib/zero-padding":537,"./level-list":521,"./match-history-list":522,"./match-result-list":523,"babel-polyfill":4,"material-ui/lib/raised-button":261,"material-ui/lib/select-field":265,"material-ui/lib/tabs/tab":285,"material-ui/lib/tabs/tabs":287,"react":519}],521:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41015,7 +40882,7 @@ function LevelList() {
   );
 }
 
-},{"react":519}],523:[function(require,module,exports){
+},{"react":519}],522:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -41141,7 +41008,7 @@ var MatchHistoryList = (function (_Component) {
 
 exports.default = MatchHistoryList;
 
-},{"../conf/conf":527,"material-ui/lib/avatar":233,"material-ui/lib/badge":234,"material-ui/lib/lists":246,"material-ui/lib/text-field":288,"react":519}],524:[function(require,module,exports){
+},{"../conf/conf":526,"material-ui/lib/avatar":233,"material-ui/lib/badge":234,"material-ui/lib/lists":246,"material-ui/lib/text-field":288,"react":519}],523:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -41283,7 +41150,7 @@ var MatchResultList = (function (_Component) {
 
 exports.default = MatchResultList;
 
-},{"../conf/conf":527,"material-ui/lib/avatar":233,"material-ui/lib/badge":234,"material-ui/lib/lists":246,"material-ui/lib/text-field":288,"react":519}],525:[function(require,module,exports){
+},{"../conf/conf":526,"material-ui/lib/avatar":233,"material-ui/lib/badge":234,"material-ui/lib/lists":246,"material-ui/lib/text-field":288,"react":519}],524:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41335,7 +41202,7 @@ function TournamentList(props) {
   );
 }
 
-},{"../conf/conf":527,"material-ui/lib/avatar":233,"material-ui/lib/lists":246,"react":519}],526:[function(require,module,exports){
+},{"../conf/conf":526,"material-ui/lib/avatar":233,"material-ui/lib/lists":246,"react":519}],525:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41367,7 +41234,7 @@ function TournamentLists(props) {
   );
 }
 
-},{"./tournament-list":525,"classnames":7,"react":519}],527:[function(require,module,exports){
+},{"./tournament-list":524,"classnames":7,"react":519}],526:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41433,7 +41300,7 @@ var MAXRANK = exports.MAXRANK = 5;
 
 var SEP = exports.SEP = 2;
 
-},{}],528:[function(require,module,exports){
+},{}],527:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -41638,7 +41505,201 @@ var CountryTable = (function (_Component) {
 
 exports.default = CountryTable;
 
-},{"../conf/conf":527,"../lib/select-level":535,"material-ui/lib/table/table":284,"material-ui/lib/table/table-body":278,"material-ui/lib/table/table-footer":279,"material-ui/lib/table/table-header":281,"material-ui/lib/table/table-header-column":280,"material-ui/lib/table/table-row":283,"material-ui/lib/table/table-row-column":282,"react":519}],529:[function(require,module,exports){
+CountryTable.p;
+
+},{"../conf/conf":526,"../lib/select-level":535,"material-ui/lib/table/table":284,"material-ui/lib/table/table-body":278,"material-ui/lib/table/table-footer":279,"material-ui/lib/table/table-header":281,"material-ui/lib/table/table-header-column":280,"material-ui/lib/table/table-row":283,"material-ui/lib/table/table-row-column":282,"react":519}],528:[function(require,module,exports){
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _conf = require('../conf/conf');
+
+var _lists = require('material-ui/lib/lists');
+
+var _selectableEnhance = require('material-ui/lib/hoc/selectable-enhance');
+
+var _avatar = require('material-ui/lib/avatar');
+
+var _avatar2 = _interopRequireDefault(_avatar);
+
+var _raisedButton = require('material-ui/lib/raised-button');
+
+var _raisedButton2 = _interopRequireDefault(_raisedButton);
+
+var _shuffle = require('../lib/shuffle');
+
+var _shuffle2 = _interopRequireDefault(_shuffle);
+
+var _getPair = require('../lib/get-pair');
+
+var _getPair2 = _interopRequireDefault(_getPair);
+
+var _tournamentLists = require('../components/tournament-lists');
+
+var _tournamentLists2 = _interopRequireDefault(_tournamentLists);
+
+var _popmotionScrollTo = require('popmotion-scroll-to');
+
+var _popmotionScrollTo2 = _interopRequireDefault(_popmotionScrollTo);
+
+var _offset = require('offset');
+
+var _offset2 = _interopRequireDefault(_offset);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } step("next"); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SelectableList = (0, _selectableEnhance.SelectableContainerEnhance)(_lists.List);
+
+var scrollTargetTop = 0;
+
+var PlayerList = (function (_Component) {
+  _inherits(PlayerList, _Component);
+
+  function PlayerList(props) {
+    _classCallCheck(this, PlayerList);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PlayerList).call(this, props));
+
+    _this._handleUpdateSelectedPlayerIndex = _this._handleUpdateSelectedPlayerIndex.bind(_this);
+    _this.createTournament = _this.createTournament.bind(_this);
+    return _this;
+  }
+
+  _createClass(PlayerList, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'h2',
+          { className: 'sub-title' },
+          'Player'
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            SelectableList,
+            {
+              valueLink: { value: this.props.selectedPlayerIndex, requestChange: this._handleUpdateSelectedPlayerIndex },
+              subheader: 'Select Player' },
+            this.props.users.map(function (user, i) {
+              return _react2.default.createElement(_lists.ListItem, {
+                key: Date.now() * Math.random(),
+                primaryText: user.name,
+                secondaryText: user.team,
+                value: i + 1,
+                leftAvatar: _react2.default.createElement(
+                  _avatar2.default,
+                  { backgroundColor: _conf.colors[user.rank] },
+                  user.name.slice(0, 1).toUpperCase()
+                ),
+                className: 'user-name'
+              });
+            }),
+            _react2.default.createElement(_lists.ListDivider, null)
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'shuffle-button-wrapper' },
+          _react2.default.createElement(_raisedButton2.default, {
+            onClick: this.createTournament,
+            label: '!!!shuffle!!!',
+            primary: true,
+            disabled: this.props.isShowTounament,
+            className: 'shuffle-button',
+            style: { height: '80px' }
+          })
+        ),
+        _react2.default.createElement(_tournamentLists2.default, {
+          pairs: this.props.pairs,
+          isShowTounament: this.props.isShowTounament
+        })
+      );
+    }
+  }, {
+    key: '_handleUpdateSelectedPlayerIndex',
+    value: function _handleUpdateSelectedPlayerIndex(e, index) {
+      this.props.handleUpdateSelectedPlayerIndex(e, index);
+    }
+  }, {
+    key: '_shuffleUsers',
+    value: function _shuffleUsers() {
+      var setShuffleUsers = (0, _getPair2.default)((0, _shuffle2.default)(this.props.users));
+      this.props.shuffleUsers(setShuffleUsers);
+    }
+  }, {
+    key: 'scrollToEl',
+    value: function scrollToEl() {
+      if (scrollTargetTop === 0) {
+        scrollTargetTop = document.body.scrollTop + (0, _offset2.default)(document.querySelector('#match')).top;
+      }
+      (0, _popmotionScrollTo2.default)({ x: 0, y: scrollTargetTop });
+    }
+  }, {
+    key: '_showTounament',
+    value: function _showTounament() {
+      if (!this.props.isShowTounament) {
+        var setIsShowTounament = !this.props.isShowTounament;
+        this.props.showTounament(setIsShowTounament);
+      }
+    }
+  }, {
+    key: 'createTournament',
+    value: function createTournament() {
+      var _this2 = this;
+
+      _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this2._shuffleUsers();
+                _this2.scrollToEl();
+                _context.next = 4;
+                return new Promise(function (resolve) {
+                  return setTimeout(function () {
+                    return resolve();
+                  }, 1500);
+                });
+
+              case 4:
+                _this2._showTounament();
+
+              case 5:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, _this2);
+      }))();
+    }
+  }]);
+
+  return PlayerList;
+})(_react.Component);
+
+exports.default = PlayerList;
+
+},{"../components/tournament-lists":525,"../conf/conf":526,"../lib/get-pair":532,"../lib/shuffle":536,"material-ui/lib/avatar":233,"material-ui/lib/hoc/selectable-enhance":243,"material-ui/lib/lists":246,"material-ui/lib/raised-button":261,"offset":306,"popmotion-scroll-to":307,"react":519}],529:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -41670,7 +41731,7 @@ function chkSelectEnable(props, userObj, targetRank) {
   return enable;
 }
 
-},{"../conf/conf":527,"../lib/get-team":534}],530:[function(require,module,exports){
+},{"../conf/conf":526,"../lib/get-team":534}],530:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -41732,7 +41793,7 @@ function getPair(array) {
   return pair;
 }
 
-},{"../conf/conf":527}],533:[function(require,module,exports){
+},{"../conf/conf":526}],533:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
