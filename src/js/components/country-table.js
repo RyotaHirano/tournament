@@ -13,6 +13,12 @@ import { teams } from '../conf/conf';
 
 export default class CountryTable extends Component {
 
+  // static get propTypes() {
+  //   return {
+  //     users: PropTypes.array.isRequired
+  //   };
+  // }
+
   constructor(props) {
     super(props);
     this.onClickTableRow = this.onClickTableRow.bind(this);
@@ -79,3 +85,5 @@ export default class CountryTable extends Component {
     this.props.onClickAddRowSelection(selectedRows);
   }
 }
+
+CountryTable.p
