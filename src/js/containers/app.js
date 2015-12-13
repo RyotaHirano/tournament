@@ -11,9 +11,9 @@ import React, { Component } from 'react';
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from'material-ui/lib/tabs/tab';
 import SelectField from 'material-ui/lib/select-field';
-import LevelList from './level-list';
 
-import MatchHistoryList from './match-history-list';
+import LevelList from '../components/level-list';
+import MatchHistoryList from '../components/match-history-list';
 
 // Containers
 import PlayerList from '../containers/playerList';
