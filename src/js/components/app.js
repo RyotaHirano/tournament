@@ -12,14 +12,14 @@ import React, { Component } from 'react';
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from'material-ui/lib/tabs/tab';
 import RaisedButton from 'material-ui/lib/raised-button';
-import SelectField from 'material-ui/lib/select-field';
 import LevelList from './level-list';
 
 import MatchResultList from './match-result-list';
-import MatchHistoryList from './match-history-list';
 
 import PlayerList from '../container/playerList';
 import CountryTable from '../container/country-table';
+import MatchHistory from '../container/match-history';
+
 
 // Read Match History Data
 import { jsonData } from '../../../data/readJson';
@@ -121,31 +121,11 @@ export default class App extends Component {
             label="Match History"
             key={ Date.now() * Math.random() }
           >
-            <div
-              className="match-history"
-            >
-              <div className="match-history-select-box">
-                <span className="select-match-history-label">Select Match</span>
-                <SelectField
-                  displayMember="no"
-                  menuItems={this.selectMatchDataTitle}
-                  onChange={this.onChangeMatchHistory}
-                  style={{marginTop: 20}}
-                />
-              </div>
-              <div className="match-history-lists">
-              { (this.state.selectedMatchData.length !== 0) ?
-                  this.state.selectedMatchData.map((pair, index) =>
-                  <MatchHistoryList
-                    key={Date.now() * Math.random() + index}
-                    pair={pair}
-                    index={index}
-                  />
-                  )
-                : null
-              }
-              </div>
-            </div>
+            <MatchHistory
+              { ...this.state }
+              selectMatchDataTitle={this.selectMatchDataTitle}
+              onChangeMatchHistory={this.onChangeMatchHistory}
+            />
           </Tab>
         </Tabs>
       </div>
@@ -249,8 +229,7 @@ export default class App extends Component {
     downLoadaBtn.click();
   }
 
-  onChangeMatchHistory(e, id) {
-    const index = parseInt(id, 10);
+  onChangeMatchHistory(index) {
     this.setState({
       selectedMatchData: this.selectMatchData[index]
     });
