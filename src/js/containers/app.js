@@ -1,25 +1,22 @@
 import 'babel-polyfill';
 
-import { users, teams, NO } from '../conf/conf';
+import { users, teams } from '../conf/conf';
 import getTeam from '../lib/get-team';
 import getSelectedCountry from '../lib/get-selected-country';
 import chkSelectEnable from '../lib/chk-select-enable';
 import createSelectMatchDataTitle from '../lib/create-select-match-data-title';
 import createSelectMatchData from '../lib/create-select-match-data';
-import zeroPadding from '../lib/zero-padding';
 
 import React, { Component } from 'react';
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from'material-ui/lib/tabs/tab';
-import RaisedButton from 'material-ui/lib/raised-button';
-import LevelList from './level-list';
+import LevelList from '../components/level-list';
 
-import MatchResultList from './match-result-list';
-
-import PlayerList from '../container/playerList';
-import CountryTable from '../container/country-table';
-import MatchHistory from '../container/match-history';
-
+// Containers
+import PlayerList from '../containers/playerList';
+import CountryTable from '../containers/country-table';
+import MatchResult from '../containers/match-result';
+import MatchHistory from '../containers/match-history';
 
 // Read Match History Data
 import { jsonData } from '../../../data/readJson';
@@ -51,7 +48,7 @@ export default class App extends Component {
       selectedPlayerIndex: null,
       selectedTeams: [],
       selectMatchData: this.selectMatchData,
-      selectedMatchData: this.selectMatchData[0],
+      selectedMatchData: this.selectMatchData[0]
     };
     this.showFlg = false;
 
@@ -61,7 +58,6 @@ export default class App extends Component {
     this.teamSelected = this.teamSelected.bind(this);
     this.addRowSelection = this.addRowSelection.bind(this);
     this.onChangeScore = this.onChangeScore.bind(this);
-    this.onClickDownLoadButton = this.onClickDownLoadButton.bind(this);
     this.onChangeMatchHistory = this.onChangeMatchHistory.bind(this);
   }
 
@@ -95,27 +91,10 @@ export default class App extends Component {
             label="Match Result"
             key={ Date.now() * Math.random() }
           >
-            <div className="match-result">
-              {this.state.pairs.map((pair, index) =>
-                <MatchResultList
-                  key={Date.now() * Math.random() + index}
-                  pair={pair}
-                  index={index}
-                  onChangeScore={this.onChangeScore}
-                />
-              )}
-              <div
-                className="json-download"
-              >
-                <RaisedButton
-                  label="JSON DOWNLOAD"
-                  primary={true}
-                  disabled={!this.state.isShowTounament}
-                  onTouchTap={this.onClickDownLoadButton}
-                  style={{marginTop: 20}}
-                />
-              </div>
-            </div>
+            <MatchResult
+              {...this.state}
+              onChangeScore={this.onChangeScore}
+            />
           </Tab>
           <Tab
             label="Match History"
@@ -189,44 +168,13 @@ export default class App extends Component {
     });
   }
 
-  _whitchWinner(score, oppScore) {
-    let WIN = [false, false];
-    if (score > oppScore) {
-      WIN = [true, false];
-    } else if (score < oppScore) {
-      WIN = [false, true];
-    }
-    return WIN;
-  }
-
-  onChangeScore(userId, score, oppUserId, oppUserScore) {
-    const newUser = this.state.users[parseInt(userId, 10)];
-    const oppNewUser = this.state.users[parseInt(oppUserId, 10)];
-    const winnner = this._whitchWinner(score, oppUserScore);
-
-    newUser.score = score;
-    newUser.win = winnner[0];
-    oppNewUser.win = winnner[1];
+  onChangeScore(newUser, oppNewUser) {
     this.setState({
       users: Object.assign(this.state.users, newUser)
     });
     this.setState({
       users: Object.assign(this.state.users, oppNewUser)
     });
-  }
-
-  onClickDownLoadButton() {
-    const downloadObj = {
-      no: NO,
-      data: this.state.pairs
-    }
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(downloadObj));
-    const downLoadaBtn = document.createElement('a');
-    const today = new Date();
-    const titleDate = `${today.getFullYear()}${zeroPadding(today.getMonth() + 1)}${zeroPadding(today.getDate())}`;
-    downLoadaBtn.setAttribute('href', dataStr);
-    downLoadaBtn.setAttribute('download', `${titleDate}_tournament_data.json`);
-    downLoadaBtn.click();
   }
 
   onChangeMatchHistory(index) {
