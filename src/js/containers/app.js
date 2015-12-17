@@ -10,15 +10,13 @@ import createSelectMatchData from '../lib/create-select-match-data';
 import React, { Component } from 'react';
 import Tabs from 'material-ui/lib/tabs/tabs';
 import Tab from'material-ui/lib/tabs/tab';
-import SelectField from 'material-ui/lib/select-field';
-
 import LevelList from '../components/level-list';
-import MatchHistoryList from '../components/match-history-list';
 
 // Containers
 import PlayerList from '../containers/playerList';
 import CountryTable from '../containers/country-table';
 import MatchResult from '../containers/match-result';
+import MatchHistory from '../containers/match-history';
 
 // Read Match History Data
 import { jsonData } from '../../../data/readJson';
@@ -50,7 +48,7 @@ export default class App extends Component {
       selectedPlayerIndex: null,
       selectedTeams: [],
       selectMatchData: this.selectMatchData,
-      selectedMatchData: this.selectMatchData[0],
+      selectedMatchData: this.selectMatchData[0]
     };
     this.showFlg = false;
 
@@ -102,31 +100,11 @@ export default class App extends Component {
             label="Match History"
             key={ Date.now() * Math.random() }
           >
-            <div
-              className="match-history"
-            >
-              <div className="match-history-select-box">
-                <span className="select-match-history-label">Select Match</span>
-                <SelectField
-                  displayMember="no"
-                  menuItems={this.selectMatchDataTitle}
-                  onChange={this.onChangeMatchHistory}
-                  style={{marginTop: 20}}
-                />
-              </div>
-              <div className="match-history-lists">
-              { (this.state.selectedMatchData.length !== 0) ?
-                  this.state.selectedMatchData.map((pair, index) =>
-                  <MatchHistoryList
-                    key={Date.now() * Math.random() + index}
-                    pair={pair}
-                    index={index}
-                  />
-                  )
-                : null
-              }
-              </div>
-            </div>
+            <MatchHistory
+              { ...this.state }
+              selectMatchDataTitle={this.selectMatchDataTitle}
+              onChangeMatchHistory={this.onChangeMatchHistory}
+            />
           </Tab>
         </Tabs>
       </div>
@@ -199,8 +177,7 @@ export default class App extends Component {
     });
   }
 
-  onChangeMatchHistory(e, id) {
-    const index = parseInt(id, 10);
+  onChangeMatchHistory(index) {
     this.setState({
       selectedMatchData: this.selectMatchData[index]
     });
