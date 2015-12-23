@@ -78,5 +78,3 @@ export default class CountryTable extends Component {
     this.props.onClickAddRowSelection(selectedRows);
   }
 }
-
-CountryTable.p

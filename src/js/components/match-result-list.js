@@ -86,3 +86,16 @@ export default class MatchResultList extends Component {
     this.props.onChangeScore(userId, score, oppUserId, oppUserScore);
   }
 }
+
+MatchResultList.propTypes = {
+  onChangeScore: React.PropTypes.func.isRequired,
+  pair: React.PropTypes.arrayOf(React.PropTypes.shape({
+    id: React.PropTypes.string.isRequired,
+    name: React.PropTypes.string.isRequired,
+    rank: React.PropTypes.number.isRequired,
+    score: React.PropTypes.string.isRequired,
+    team: React.PropTypes.string.isRequired,
+    win: React.PropTypes.oneOfType([React.PropTypes.bool.isRequired, React.PropTypes.string.isRequired])
+  })),
+  index: React.PropTypes.number.isRequired
+}
