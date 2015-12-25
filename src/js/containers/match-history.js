@@ -6,7 +6,6 @@ import MatchHistoryList from '../components/match-history-list';
 export default class MatchResult extends Component {
   constructor(props) {
     super(props);
-
     this.onChangeMatchHistory = this.onChangeMatchHistory.bind(this);
   }
 

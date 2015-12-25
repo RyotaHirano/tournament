@@ -75,3 +75,15 @@ export default class MatchHistoryList extends Component {
     );
   }
 }
+
+MatchHistoryList.propTypes = {
+  index: React.PropTypes.number.isRequired,
+  pair: React.PropTypes.arrayOf(React.PropTypes.shape({
+    id: React.PropTypes.string.isRequired,
+    name: React.PropTypes.string.isRequired,
+    rank: React.PropTypes.number.isRequired,
+    score: React.PropTypes.string.isRequired,
+    team: React.PropTypes.string.isRequired,
+    win: React.PropTypes.bool.isRequired
+  }))
+}
