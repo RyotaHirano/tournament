@@ -1,48 +1,40 @@
-export const NO = '第2回';
+export const NO = '第2回ぷよぷよ';
 
 export const users = [
   {
     id: '0',
     name: 'sato',
-    rank: 3,
-    team: '',
-    score: '0',
-    win: ''
-  },
-  {
-    id: '1',
-    name: 'takamatsu',
-    rank: 3,
-    team: '',
-    score: '0',
-    win: ''
-  },
-  {
-    id: '2',
-    name: 'sawada',
-    rank: 2,
-    team: '',
-    score: '0',
-    win: ''
-  },
-  {
-    id: '3',
-    name: 'saitou',
-    rank: 3,
-    team: '',
-    score: '0',
-    win: ''
-  },
-  {
-    id: '4',
-    name: 'noda',
     rank: 1,
     team: '',
     score: '0',
     win: ''
   },
   {
-    id: '5',
+    id: '1',
+    name: 'niwa',
+    rank: 2,
+    team: '',
+    score: '0',
+    win: ''
+  },
+  {
+    id: '2',
+    name: 'wakatsuki',
+    rank: 3,
+    team: '',
+    score: '0',
+    win: ''
+  },
+  {
+    id: '3',
+    name: 'takamatsu',
+    rank: 4,
+    team: '',
+    score: '0',
+    win: ''
+  },
+  {
+    id: '4',
     name: 'hirano',
     rank: 5,
     team: '',
